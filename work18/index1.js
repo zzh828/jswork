@@ -26,7 +26,7 @@ this.first.disabled=(this.page<=1)
 this.prev.disabled=(this.page<=1)
 this.next.disabled=(this.page>=this.maxPage)
 this.last.disabled=(this.page>=this.maxPage)
-this.pageNum.innerHTMl=this.page
+this.pageNum.innerHTML=this.page
     }
     function Comment(obj){
         this.obj=obj;
@@ -34,7 +34,7 @@ this.pageNum.innerHTMl=this.page
     Comment.prototype.ajax=function(url,start,complete){
         var xhr=new XMLHttpRequest();
         xhr.onreadystatechange=function(){
-            if(xhr.readState==4){
+            if(xhr.readState===4){
                 if(xhr.status<200||xhr.status>=300&&xhr.status !==304){
                     alert('服务器异常')
                     return
@@ -58,7 +58,7 @@ start()
             html+=data[i].time+'</li>'
             html+='<li>' +data[i].connent+'</li></ul>'
         }
-        this.obj.innerHTMl=html;
+        this.obj.innerHTML=html;
     }
     function ProgressBar(container){
         this.container=container
@@ -69,7 +69,7 @@ start()
      this.div.style.width='70%'}
      ProgressBar.prototype.complete=function(){
          var div =this.div
-         var container=this.container
+         var container=this.container;
          div.style.width='100%'
          setTimeout(function(){
              div.style.opacity=0
@@ -90,13 +90,13 @@ start()
             var r= this.get().match(reg);
             return r? unescape(r[2]):null
         },
-        get:function(){
+        getPage:function(){
             var page =parseInt(this.find('page'))
-            return (isNaN(page)||(page<1))?1:page
+            return (isNaN(page)||(page<1))?1:page;
         }
      }
      var comment =new Comment(document.getElementById('comment'))
-     var ProgressBar
+     var progressBar;
      var progressContainer=document.getElementById('progress')
      var pageList=new PageList({
          page:QueryString.getPage(),
@@ -108,14 +108,14 @@ start()
         pageNum:document.getElementById('page_num'),
         onChange:function(){
             comment.ajax('http://139.9.81.203:890/ajax?page='+this,page,function(){
-                processBar =new ProgressBar(progressContainer)
-                processBar.show()
+                progressBar =new ProgressBar(progressContainer)
+                progressBar.show();
             },function(obj){
                 pageList.maxPage=obj.maxPage
                 pageList.updateStatus();
                 comment.create(obj.data)
                 QueryString.set('page='+pageList.page);
-                ProgressBar.complete();
+              processBar.complete();
             });
         }
      });

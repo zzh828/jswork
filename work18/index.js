@@ -1,5 +1,5 @@
 function send(){
-    let son=document.getElementById('sno').value
+    let sno=document.getElementById('sno').value
     let name=document.getElementById('name').value
     let content=document.getElementById('content').value
     let xmlhttp;
@@ -16,7 +16,7 @@ function send(){
       if(xmlhttp.readyState == 4 && xmlhttp.status == 200 ) {
    let ajaxData=JSON.parse(xmlhttp.responseText)
    result =ajaxData.reverse().map((val)=>{return JSON.stringify(val)})
-   document.getElementById('result').innerHTML=resul.join('<br>')
+   document.getElementById("result").innerHTML=resul.join('<br>')
       }
 
   }
